@@ -1,5 +1,6 @@
 package com.example.stockwatch;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class StockListAdapter extends RecyclerView.Adapter<StockViewHolder> {
 
@@ -30,12 +32,28 @@ public class StockListAdapter extends RecyclerView.Adapter<StockViewHolder> {
     }
     @Override
     public void onBindViewHolder(@NonNull StockViewHolder holder, int position) {
-        Stock n = stocklist.get(position);
-        holder.ticker.setText(n.getTicker());
-        holder.name.setText(n.getName());
-        holder.percentchange.setText(String.format("%.1f",n.getPercentchange()));
-        holder.netchange.setText(String.format("%.1f",n.getNetchange()));
-        holder.price.setText(String.format("%.1f",n.getPrice()));
+        Stock s = stocklist.get(position);
+
+        if(s.getNetchange()>0){
+            holder.ticker.setTextColor(Color.parseColor("green"));
+            holder.name.setTextColor(Color.parseColor("green"));
+            holder.price.setTextColor(Color.parseColor("green"));
+            holder.netchange.setTextColor(Color.parseColor("green"));
+            holder.percentchange.setTextColor(Color.parseColor("green"));
+            //ARROW UP DRAWING
+        }
+        else{
+            holder.ticker.setTextColor(Color.parseColor("red"));
+            holder.name.setTextColor(Color.parseColor("red"));
+            holder.price.setTextColor(Color.parseColor("red"));
+            holder.netchange.setTextColor(Color.parseColor("red"));
+            holder.percentchange.setTextColor(Color.parseColor("red"));
+        }
+        holder.ticker.setText(s.getTicker());
+        holder.name.setText(s.getName());
+        holder.percentchange.setText(String.format(Locale.US, "%.2f",s.getPercentchange()));
+        holder.netchange.setText(String.format(Locale.US,"%.2f",s.getNetchange()));
+        holder.price.setText(String.format(Locale.US,"%.2f%%",s.getPrice()));
 
     }
 

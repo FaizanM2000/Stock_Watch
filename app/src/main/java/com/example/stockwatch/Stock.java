@@ -20,6 +20,27 @@ public class Stock implements Serializable {
         this.percentchange = percentchange;
     }
 
+    public Stock(){}
+
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setNetchange(Double netchange) {
+        this.netchange = netchange;
+    }
+
+    public void setPercentchange(Double percentchange) {
+        this.percentchange = percentchange;
+    }
 
     public String getTicker() {
         return ticker;
