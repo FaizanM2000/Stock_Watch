@@ -278,12 +278,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean duplicateStock(String item){
         Log.d(TAG, "duplicateStock: ran");
         String symbol = item.split("-")[0].trim();
-        System.out.println("duplicate Symbol: "+ symbol);
         Stock temp = new Stock();
         temp.setTicker(symbol);
         for(int i = 0;i<stockArrayList.size();i++){
-            Log.d(TAG, "duplicateStock: "+stockArrayList.get(i));
-            if(symbol == stockArrayList.get(i).getTicker()){
+            if(symbol.equals(stockArrayList.get(i).getTicker())){
+
                 return true;
             }
         }
@@ -295,9 +294,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Use an async function to get the details and store it to the main list
         String symbol = s.split("-")[0].trim();
         System.out.println("Symbol: "+ symbol);
-
         new StockLoaderRunnable(this).execute(symbol);
-
         //Store the stock in the database (Only company symbol and name)
         Stock ts = new Stock();
         ts.setTicker(symbol);
