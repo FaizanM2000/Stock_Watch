@@ -20,11 +20,14 @@
             android:id="@+id/tickertext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginLeft="17dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif"
             android:text="TICKER"
             android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,9 +35,9 @@
             android:id="@+id/nametext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             android:text="NAME"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,11 +49,10 @@
             android:layout_height="29dp"
             android:layout_marginStart="37dp"
             android:layout_marginLeft="37dp"
-            android:layout_marginTop="36dp"
             android:text="PRICE"
             android:textColor="#FFFFFF"
-            app:layout_constraintStart_toEndOf="@+id/tickertext"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/netchangetext"
+            app:layout_constraintStart_toEndOf="@+id/tickertext" />
 
         <TextView
             android:id="@+id/netchangetext"
@@ -58,22 +60,21 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="49dp"
             android:layout_marginLeft="49dp"
-            android:layout_marginTop="41dp"
             android:text="NETCHANGE"
             android:textColor="#FFFFFF"
-            app:layout_constraintStart_toEndOf="@+id/pricetext"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/percenttext"
+            app:layout_constraintStart_toEndOf="@+id/pricetext" />
 
         <TextView
             android:id="@+id/percenttext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginLeft="9dp"
-            android:layout_marginTop="41dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:text="%CHANGE"
             android:textColor="#FFFFFF"
-            app:layout_constraintStart_toEndOf="@+id/netchangetext"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

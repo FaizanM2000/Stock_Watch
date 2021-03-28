@@ -51,9 +51,10 @@ public class StockListAdapter extends RecyclerView.Adapter<StockViewHolder> {
         }
         holder.ticker.setText(s.getTicker());
         holder.name.setText(s.getName());
-        holder.percentchange.setText(String.format(Locale.US, "%.2f",s.getPercentchange()));
+        holder.percentchange.setText("("+String.format(Locale.US, "%.2f",s.getPercentchange())+"%)");
         holder.netchange.setText(String.format(Locale.US,"%.2f",s.getNetchange()));
-        holder.price.setText(String.format(Locale.US,"%.2f%%",s.getPrice()));
+        holder.price.setText(" $"+String.format(Locale.US,"%.2f",s.getPrice()));
+
 
     }
 

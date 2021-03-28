@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -145,8 +146,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "Cannot access ConnectivityManager", Toast.LENGTH_SHORT).show();
             return false;
         }
-        boolean status = netInfo.isConnected();
-        if (netInfo != null && status) {
+
+        if (netInfo != null ) {
             return true;
         } else {
             return false;
@@ -209,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         stockOption.addAll(tempList);
                                         if(stockOption.size() == 1){
                                             if(duplicateStock(stockOption.get(0))){
+                                                Log.d(TAG, "onClick: duplicate ran");
                                                 duplicateDialog(et.getText().toString());
                                             }
                                             else{
@@ -224,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             builders.setItems(arr, new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     if(duplicateStock(arr[which])){
+                                                        Log.d(TAG, "onClick: duplicate ran");
                                                         duplicateDialog(et.getText().toString());
                                                     }
                                                     else{
@@ -273,13 +276,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean duplicateStock(String item){
-
+        Log.d(TAG, "duplicateStock: ran");
         String symbol = item.split("-")[0].trim();
-        System.out.println("Symbol: "+ symbol);
+        System.out.println("duplicate Symbol: "+ symbol);
         Stock temp = new Stock();
         temp.setTicker(symbol);
-        stockArrayList.contains(temp);
-        return stockArrayList.contains(temp);
+        for(int i = 0;i<stockArrayList.size();i++){
+            Log.d(TAG, "duplicateStock: "+stockArrayList.get(i));
+            if(symbol == stockArrayList.get(i).getTicker()){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void saveStock(String s) {
@@ -376,7 +384,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        final int pos = recyclerView.getChildLayoutPosition(v);
+        final int pos = recyclerView.getChildLayoutPosition(view);
+        Log.d(TAG, "onClick: "+pos);
+        Log.d(TAG, "onClick: size of list"+stockArrayList.size());
         String marketPlace = "http://www.marketwatch.com/investing/stock/";
         String symbol = stockArrayList.get(pos).getTicker();
 
@@ -389,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onLongClick(View view) {
-        final int pos = recyclerView.getChildLayoutPosition(v);
+        final int pos = recyclerView.getChildLayoutPosition(view);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setIcon(R.drawable.baseline_delete_24);
         builder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
@@ -404,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        TextView tv = v.findViewById(R.id.tickertext);
+        TextView tv = view.findViewById(R.id.tickertext);
         String symbol = tv.getText().toString();
         builder.setMessage("Delete Stock Symbol "+symbol+"?");
         builder.setTitle("Delete Stock");
