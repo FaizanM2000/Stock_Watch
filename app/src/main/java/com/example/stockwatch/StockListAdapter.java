@@ -40,7 +40,8 @@ public class StockListAdapter extends RecyclerView.Adapter<StockViewHolder> {
             holder.price.setTextColor(Color.parseColor("green"));
             holder.netchange.setTextColor(Color.parseColor("green"));
             holder.percentchange.setTextColor(Color.parseColor("green"));
-            //ARROW UP DRAWING
+            holder.arrow.setImageResource(R.drawable.ic_baseline_arrow_drop_up_24);
+            holder.arrow.setColorFilter(Color.parseColor("green"));
         }
         else{
             holder.ticker.setTextColor(Color.parseColor("red"));
@@ -48,6 +49,8 @@ public class StockListAdapter extends RecyclerView.Adapter<StockViewHolder> {
             holder.price.setTextColor(Color.parseColor("red"));
             holder.netchange.setTextColor(Color.parseColor("red"));
             holder.percentchange.setTextColor(Color.parseColor("red"));
+            holder.arrow.setImageResource(R.drawable.ic_baseline_arrow_drop_down_24);
+            holder.arrow.setColorFilter(Color.parseColor("red"));
         }
         holder.ticker.setText(s.getTicker());
         holder.name.setText(s.getName());

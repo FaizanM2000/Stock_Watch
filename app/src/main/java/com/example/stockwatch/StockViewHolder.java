@@ -1,6 +1,7 @@
 package com.example.stockwatch;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.view.menu.MenuView;
@@ -16,6 +17,7 @@ public class StockViewHolder extends RecyclerView.ViewHolder {
     TextView price;
     TextView netchange;
     TextView percentchange;
+    ImageView arrow;
 
     public StockViewHolder(View itemView){
         super(itemView);
@@ -24,7 +26,7 @@ public class StockViewHolder extends RecyclerView.ViewHolder {
         price = itemView.findViewById(R.id.pricetext);
         netchange = itemView.findViewById(R.id.netchangetext);
         percentchange = itemView.findViewById(R.id.percenttext);
-
+        arrow = itemView.findViewById(R.id.arrow);
     }
 
 }
