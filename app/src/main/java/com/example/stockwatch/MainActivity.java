@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void saveStock(String s) {
-
+        
         //Use an async function to get the details and store it to the main list
         String symbol = s.split("-")[0].trim();
         System.out.println("Symbol: "+ symbol);
@@ -326,6 +326,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void doRefresh() {
+
+        stockArrayList.clear();
+        nAdapter.notifyDataSetChanged();
+        Log.d(TAG, "doRefresh: "+stockArrayList.toString());
 
         swiper.setRefreshing(false);
 
