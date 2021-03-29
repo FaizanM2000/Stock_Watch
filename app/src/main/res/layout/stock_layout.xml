@@ -49,10 +49,11 @@
             android:layout_height="29dp"
             android:layout_marginStart="37dp"
             android:layout_marginLeft="37dp"
+            android:layout_marginTop="20dp"
             android:text="PRICE"
             android:textColor="#FFFFFF"
-            app:layout_constraintBaseline_toBaselineOf="@+id/netchangetext"
-            app:layout_constraintStart_toEndOf="@+id/tickertext" />
+            app:layout_constraintStart_toEndOf="@+id/tickertext"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/netchangetext"
@@ -60,10 +61,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="49dp"
             android:layout_marginLeft="49dp"
+            android:layout_marginTop="20dp"
             android:text="NETCHANGE"
             android:textColor="#FFFFFF"
-            app:layout_constraintBaseline_toBaselineOf="@+id/percenttext"
-            app:layout_constraintStart_toEndOf="@+id/pricetext" />
+            app:layout_constraintStart_toEndOf="@+id/pricetext"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/percenttext"

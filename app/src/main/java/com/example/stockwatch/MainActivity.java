@@ -59,10 +59,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onRefresh() {
 
-                if(!doNetCheck()){
-                    //show network error dialog
+                if(!doNetworkCheck()){
+
                     swiper.setRefreshing(false);
-                    networkDialog("update");
+                    networkErrorDialog("update");
                 }else {
                     doRefresh();
                 }
@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         stockDatabase = new StockDatabase(this);
         new StockNameLoaderRunnable(this).execute();
         ArrayList<Stock> tempList = stockDatabase.loadStocks();
-        if(!doNetCheck()){
-            networkDialog("");
+        if(!doNetworkCheck()){
+            networkErrorDialog("");
             for(int i=0; i<tempList.size(); i++){
                 stockArrayList.add(tempList.get(i));
             }
@@ -89,8 +89,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new StockLoaderRunnable(this).execute(symbol);
             }
         }
-
-
     }
     //on create ends
     public void updateData (HashMap < String, String > tickerNameMap){
@@ -121,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nAdapter.notifyDataSetChanged();
     }
 
-    public void networkDialog(String text){
+    public void networkErrorDialog(String text){
         String message = null;
         if(text.equals("add")){
             message = "Stocks Cannot Be Added Without A Network Connection";
@@ -130,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             message = "Stocks Cannot Be Updated Without A Network Connection";
         }
         else{
-            message = "Please Check Your Network";
+            message = "Please Check Your Network and try again";
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message);
@@ -139,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog.show();
     }
 
-    private boolean doNetCheck() {
+    private boolean doNetworkCheck() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (cm == null) {
@@ -156,8 +154,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(!doNetCheck()){
-            networkDialog("add");
+        if(!doNetworkCheck()){
+            networkErrorDialog("add");
             return false;
         }
         else{
@@ -180,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     newFilters[editFilters.length] =  new InputFilter() {
                         @Override
                         public CharSequence filter(CharSequence charSequence, int i, int i1, Spanned spanned, int i2, int i3) {
-                            if(charSequence.equals("")){ // for backspace
+                            if(charSequence.equals("")){
                                 return charSequence;
                             }
                             if(charSequence.toString().matches("[a-zA-Z 0-9]+")){
@@ -189,23 +187,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             return "";
                         }
                     };
-
                     et.setFilters(newFilters);
-
-
                     et.setGravity(Gravity.CENTER_HORIZONTAL);
                     builder.setView(et);
 
                     builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            if(!doNetCheck()){
-                                networkDialog("add");
+                            if(!doNetworkCheck()){
+                                networkErrorDialog("add");
                             }
                             else{
 
                                 if(et.getText().toString().length() > 0){
                                     final ArrayList<String> stockOption = new ArrayList<>();
-                                    ArrayList<String> tempList = searchForStock(et.getText().toString());
+                                    ArrayList<String> tempList = searchTicker(et.getText().toString());
                                     if(!tempList.isEmpty()){
                                         stockOption.addAll(tempList);
                                         if(stockOption.size() == 1){
@@ -235,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 }
                                             });
 
-                                            builders.setNegativeButton("Nevermind", new DialogInterface.OnClickListener() {
+                                            builders.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int id) {
                                                 }
                                             });
@@ -250,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                 }
                                 else{
-                                    Toast.makeText(MainActivity.this, "Please Enter a valid Stock Symbol!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity.this, "valid ticker not found!", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -276,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean duplicateStock(String item){
-        Log.d(TAG, "duplicateStock: ran");
+
         String symbol = item.split("-")[0].trim();
         Stock temp = new Stock();
         temp.setTicker(symbol);
@@ -290,8 +285,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void saveStock(String s) {
-        
-        //Use an async function to get the details and store it to the main list
+
         String symbol = s.split("-")[0].trim();
         System.out.println("Symbol: "+ symbol);
         new StockLoaderRunnable(this).execute(symbol);
@@ -304,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return;
     }
 
-    private ArrayList<String> searchForStock(String text) {
+    private ArrayList<String> searchTicker(String text) {
         ArrayList<String> stockOption = new ArrayList<>();
 
         if(tickerNameMap != null && !tickerNameMap.isEmpty()) {
@@ -313,13 +307,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             while (it.hasNext()) {
                 String symbol = it.next();
                 String name = tickerNameMap.get(symbol);
-                //pattern matching
+
                 if (symbol.toUpperCase().contains(text.toUpperCase())) {
                     stockOption.add(symbol + " - " + name);
                 } else if (name.toUpperCase().contains(text.toUpperCase())) {
                     stockOption.add(symbol + " - " + name);
                 }
-
             }
         }
         return stockOption;
